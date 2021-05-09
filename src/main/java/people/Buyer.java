@@ -1,12 +1,28 @@
+package people;
+
+import shop.BikeShop;
+import veichles.Bike;
+
 public class Buyer extends People{
     private double wallet;
     private Bike wantedBike;
 
-    public Buyer(String firstName, String lastName, String number, double wallet, Bike wantedBike) {
-        super(firstName, lastName, number);
+    public Buyer(String firstName, String lastName, double wallet, Bike wantedBike) {
+        super(firstName, lastName);
         this.wallet = wallet;
         this.wantedBike = wantedBike;
     }
+    public boolean pay(BikeShop bikeShop) {
+        if(buyBike(bikeShop)) {
+            this.wallet -= this.wantedBike.getPrice();
+            bikeShop.setRegister(bikeShop.getRegister()+this.wantedBike.getPrice());
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public boolean buyBike(BikeShop bikeShop) {
         if(bikeShop.getInStock().contains(this.wantedBike) && this.wantedBike.getPrice() <= this.wallet) {
             bikeShop.getInStock().remove(this.wantedBike);

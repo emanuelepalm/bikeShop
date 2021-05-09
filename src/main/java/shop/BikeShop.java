@@ -1,3 +1,8 @@
+package shop;
+
+import people.People;
+import veichles.Bike;
+
 import java.util.ArrayList;
 
 public class BikeShop {
@@ -16,7 +21,7 @@ public class BikeShop {
         if (owner == this.getOwner() && !this.isOpen) {
             this.isOpen = true;
             this.register = 300.00;
-            System.out.println("Negozio aperto! Fondocassa :" + this.register);
+            System.out.println("Negozio aperto! Fondocassa : " + this.register + " €");
         }
     }
 

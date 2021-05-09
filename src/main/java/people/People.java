@@ -1,7 +1,8 @@
+package people;
+
 public class People {
     private String firstName;
     private String lastName;
-    private String number;
 
     public String getFirstName() {
         return firstName;
@@ -19,18 +20,11 @@ public class People {
         this.lastName = lastName;
     }
 
-    public String getNumber() {
-        return number;
-    }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
 
-    public People(String firstName, String lastName, String number) {
+    public People(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.number = number;
     }
 
 

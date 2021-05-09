@@ -1,3 +1,5 @@
+package veichles;
+
 public class Bike extends Veichle {
 
     private String brand;
@@ -14,6 +16,12 @@ public class Bike extends Veichle {
         this.brand = name;
         this.brake = readyToMove;
         this.price = 49.99;
+    }
+    public Bike(String name, double price) {
+        super(name, 2, true);
+        this.brand = name;
+        this.brake = true;
+        this.price = price;
     }
     public Bike(String name, int wheelsNumber, boolean readyToMove, String brand, double price) {
         super(name, wheelsNumber, readyToMove);

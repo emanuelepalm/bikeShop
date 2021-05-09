@@ -1,3 +1,5 @@
+package veichles;
+
 public abstract class Veichle {
     //attributi
     protected String name;
