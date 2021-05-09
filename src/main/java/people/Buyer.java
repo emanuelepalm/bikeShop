@@ -3,6 +3,8 @@ package people;
 import shop.BikeShop;
 import veichles.Bike;
 
+import java.util.ArrayList;
+
 public class Buyer extends People{
     private double wallet;
     private Bike wantedBike;
@@ -24,12 +26,23 @@ public class Buyer extends People{
     }
 
     public boolean buyBike(BikeShop bikeShop) {
-        if(bikeShop.getInStock().contains(this.wantedBike) && this.wantedBike.getPrice() <= this.wallet) {
-            bikeShop.getInStock().remove(this.wantedBike);
-            return true;
+        int index = -1;
+        boolean purchase = false;
+        if(this.wantedBike.getPrice() <= this.wallet) {
+            ArrayList<Bike> inStock = bikeShop.getInStock();
+            for (int i = 0; i < inStock.size(); i++){
+                if(inStock.get(i).getName() == this.wantedBike.getName()) {
+                    index = i;
+                    purchase = true;
+                }
+                if(index>0) {
+                    bikeShop.getInStock().remove(index);
+                }
+            }
         } else {
-            return false;
+            purchase = false;
         }
+        return purchase;
     }
     public double getWallet() {
         return wallet;

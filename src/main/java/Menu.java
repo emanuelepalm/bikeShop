@@ -18,7 +18,7 @@ public class Menu {
         BikeShop bikeshop = populate();
         menuStart(bikeshop);
     }
-    public Buyer buyerPopulate(Menu menu) {
+    public Buyer buyerPopulate(    ) {
         String[] firstNameAr = {"Mario","Luca","Pippo","Riccardo","Antonio","Gerardo","Antonello","Peppino","Rosario","Mario","Celestino"};
         String[] lastNameAr = {"Rossi","Bianchi","Palmieri","Antonelli","Tiberio","Duvall","Bernini","Rodriguez","Panzerelli","Ricciardi","Smith"};
         Random random = new Random();
@@ -26,8 +26,9 @@ public class Menu {
         String firstName = firstNameAr[i];
         i = random.nextInt(11);
         String lastName = lastNameAr[i];
-        double wallet = ((double)random.nextInt(300));
-        Bike wantedBike = menu.bikePopulate();
+        int rand = random.nextInt(300);
+        double wallet = ((double)rand);
+        Bike wantedBike = bikePopulate();
         Buyer buyer = new Buyer(firstName,lastName,wallet,wantedBike);
         return buyer;
     }
@@ -90,7 +91,7 @@ public class Menu {
         }
     }
     public void mainMenu(BikeShop bikeShop) {
-        System.out.println("Scegli l'operazione da eseguire\n1)Visualizza le bici in magazzino\n2)Visualizza i soldi in cassa \n3)Aggiungi bici al magazzino \n4)Vendi bici \n5)Chiudi il negozio e esci");
+        System.out.println("Scegli l'operazione da eseguire\n1)Visualizza le bici in magazzino\n2)Visualizza i soldi in cassa \n3)Aggiungi bici al magazzino \n4)Vendi bici\n5)Fai un giro in bici \n6)Chiudi il negozio e esci");
         int num = checker.nextInt();
         switch (num) {
             case 1:
@@ -106,6 +107,9 @@ public class Menu {
                 sell(bikeShop);
                 break;
             case 5:
+                ride(bikeShop);
+                break;
+            case 6:
                 menuStart(bikeShop);
                 break;
             case (-1):
@@ -204,6 +208,49 @@ public class Menu {
 
     }
     public void sell(BikeShop bikeShop) {
-
+        Buyer customer = buyerPopulate();
+        System.out.println(customer.getFirstName() + " " + customer.getLastName() + " è entrato nel negozio!");
+        System.out.println(customer.getFirstName() + " vuole una " +customer.getWantedBike().getName());
+        if(customer.pay(bikeShop)) {
+            System.out.println("La bici costa " + customer.getWantedBike().getPrice() + " € e " + customer.getLastName() + "ha " + customer.getWallet() + " € nel portafoglio");
+            System.out.println("Vendita effettuata con successo!");
+        } else {
+            System.out.println("La bici costa " + customer.getWantedBike().getPrice() + " € ma " + customer.getLastName() + "ha " + customer.getWallet() + " € nel portafoglio");
+            System.out.println("Vendita fallita!");
+        }
+        System.out.println("Vuoi far entrare un altro cliente nel negozio?\n0)NO\nTASTO QUALSIASI)SI");
+        int num = checker.nextInt();
+        if(num == 0) {
+            mainMenu(bikeShop);
+        }   else {
+            sell(bikeShop);
+        }
+    }
+    public void ride(BikeShop bikeShop) {
+        System.out.println("Scegli una bici: ");
+        int num = checker.nextInt();
+        if(num <= bikeShop.getInStock().size()) {
+            Bike bike = bikeShop.getInStock().get(num);
+            System.out.println("Scegli la marcia:\n(Un numero da 1 a 7)");
+            int speed = checker.nextInt();
+            System.out.println("Quante pedalate?");
+            int pedal = checker.nextInt();
+            int distance = bike.pedal(pedal, speed);
+            if(distance >= 0) {
+                System.out.println("Distanza percorsa: " + distance + " cm!");
+            } else {
+                System.out.println("La marcia non esiste o hai provato a pedalare al contrario!");
+            }
+            System.out.println("Un altro giro?\nTASTO QUALSIASI)SI\n0)NO");
+            num = checker.nextInt();
+            if(num == 0) {
+                mainMenu(bikeShop);
+            } else {
+                ride(bikeShop);
+            }
+        } else {
+            System.out.println("NON C'E' NESSUNA BICI IN QUESTO POSTO!");
+            ride(bikeShop);
+        }
     }
 }

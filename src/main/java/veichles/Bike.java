@@ -46,6 +46,7 @@ public class Bike extends Veichle {
 
 
     public boolean checkState() {
+        System.out.println("Controllo bicicletta");
         if(this.getWheelsNumber() == 2 && this.getReadyToMove()  && this.brake) {
             return true;
         } else {
@@ -57,8 +58,8 @@ public class Bike extends Veichle {
         int distance = 0;
         if(this.checkState()) {
             if(pedal > 0 && 1 <= speed && speed <= 7) {
-                for (int i = 0; i <= pedal; i++) {
-                    distance =+ (speed*10);
+                for (int i = 1; i <= pedal; i++) {
+                    distance += (speed*10);
                 }
             } else {
                 distance = -1;
