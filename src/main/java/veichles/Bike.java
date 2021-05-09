@@ -11,11 +11,11 @@ public class Bike extends Veichle {
 
     }
 
-    public Bike(String name, boolean readyToMove) {
+    public Bike(String name,double price, boolean readyToMove) {
         super(name, 2, readyToMove);
         this.brand = name;
         this.brake = readyToMove;
-        this.price = 49.99;
+        this.price = price;
     }
     public Bike(String name, double price) {
         super(name, 2, true);

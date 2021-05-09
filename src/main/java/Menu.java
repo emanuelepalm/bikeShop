@@ -40,7 +40,7 @@ public class Menu {
         return bike;
     }
     public ArrayList<Bike> bikePopulate(int num) {
-        ArrayList<Bike> bikeAr = new ArrayList<Bike>(5);
+        ArrayList<Bike> bikeAr = new ArrayList<Bike>(num);
         String[] brandAr = {"Bianchi","Cinelli","Cipollini","De Rosa","Olmo","Thok","Torpado","Scout"};
         for(int i = 0; i < num; i++) {
             Random random = new Random();
@@ -64,7 +64,7 @@ public class Menu {
     public void menuStart(BikeShop bikeShop) {
         System.out.println("Benvenuto " + bikeShop.getOwner().getFirstName() + "!");
         if(!bikeShop.isOpen()) {
-            System.out.println("Il tuo negozio è chiuso.\nVuoi:  \nQualsiasi numero per Aprire\n0)Uscire");
+            System.out.println("Il tuo negozio è chiuso.\nVuoi:  \nTasto Qualsiasi)Aprire\n0)Uscire");
             int choice = checker.nextInt();
             if(choice >= 1) {
                 bikeShop.openShop(bikeShop.getOwner());
@@ -76,13 +76,13 @@ public class Menu {
                 menuStart(bikeShop);
             }
         } else {
-            System.out.println("Il negozio è aperto.\nVuoi\n1)Chiudere\n0)Proseguire");
+            System.out.println("Il negozio è aperto.\nVuoi\nTasto Qualsiasi)Proseguire\n0)Chiudere");
             int choice = checker.nextInt();
             if(choice >= 1) {
+                mainMenu(bikeShop);
+            } else if(choice == 0) {
                 bikeShop.closeShop(bikeShop.getOwner());
                 menuStart(bikeShop);
-            } else if(choice == 0) {
-                mainMenu(bikeShop);
             } else {
                 System.err.println("TASTO NON VALIDO!");
                 menuStart(bikeShop);
@@ -109,7 +109,7 @@ public class Menu {
                 menuStart(bikeShop);
                 break;
             case (-1):
-                System.err.println("Tasto non Valido!!!\nInserire un numero por favor");
+                System.err.println("Tasto non Valido!!!\nInserire un numero");
                 mainMenu(bikeShop);
             default:
                 System.err.println("Operazione non riconosciuta!!!");
@@ -119,7 +119,18 @@ public class Menu {
 
     }
     public void viewInStock(BikeShop bikeShop) {
-
+        ArrayList <Bike> inStock = bikeShop.getInStock();
+        System.out.println("Bici in magazzino: " +inStock.size());
+        for (Bike bike: inStock) {
+            System.out.println("Nome :" + bike.getName());
+            System.out.println("Prezzo :"+ bike.getPrice());
+            if(bike.checkState()) {
+                System.out.println("OK!");
+            } else {
+                System.out.println("Da Riparare!");
+            }
+        }
+        mainMenu(bikeShop);
     }
     public void viewRegister(BikeShop bikeShop) {
         double register = bikeShop.getRegister();
@@ -127,6 +138,69 @@ public class Menu {
         mainMenu(bikeShop);
     }
     public void addBikes(BikeShop bikeShop) {
+        System.out.println("Vuoi Aggiungere:\n1)Una Bici Manualmente\n2)Una o più bici generate automaticamente\n0)Tornare al Menu");
+        int choice = checker.nextInt();
+        switch (choice) {
+            case 1:
+                insertBike(bikeShop);
+                break;
+            case 2:
+                System.out.println("Quante bici vuoi inserire?");
+                int num = checker.nextInt();
+                if(num<=0) {
+                    System.err.println("ERRORE!\nTasto inserito non valido!!!");
+                    addBikes(bikeShop);
+                } else {
+                    System.out.println("Generazione " + num + " bici in corso");
+                    for(int i = 0; i <= num; i++) {
+                        bikeShop.getInStock().add(bikePopulate());
+                        System.out.println("--------------------------------------");
+                    }
+                    System.out.println("Inserimento effettuato!\n");
+                    mainMenu(bikeShop);
+                }
+                break;
+            case 0:
+                mainMenu(bikeShop);
+                break;
+            case -1:
+                System.err.println("Tasto non Valido!!!\nInserire un numero");
+                addBikes(bikeShop);
+                break;
+            default:
+                System.err.println("Operazione non riconosciuta!!!");
+                addBikes(bikeShop);
+        }
+
+    }
+    public void insertBike (BikeShop bikeShop) {
+        boolean readyToMove = false;
+        System.out.println("Inserisci il nome del modello di bici da inserire");
+        String name = checker.nextLn();
+        System.out.println("Inserisci il prezzo");
+        double price = checker.nextDouble();
+        System.out.println("La bici è funzionante o è da riparare?\nTasto qualsiasi)Funzionante\n0)Da riparare");
+        int nextInt = checker.nextInt();
+        if(nextInt > 0) {
+            readyToMove = true;
+        } else if(nextInt == 0) {
+            readyToMove = false;
+        } else {
+            System.err.println("Tasto non valido!");
+            insertBike(bikeShop);
+        }
+        bikeShop.getInStock().add(new Bike(name, price , readyToMove));
+        System.out.println("Bici inserita\nVuoi inserirne un'altra?\n0)Si\nTasto qualsiasi)No");
+        nextInt = checker.nextInt();
+        if(nextInt > 0) {
+            mainMenu(bikeShop);
+        } else if(nextInt == 0) {
+            addBikes(bikeShop);
+        } else {
+            System.err.println("Tasto non valido!");
+            mainMenu(bikeShop);
+        }
+
 
     }
     public void sell(BikeShop bikeShop) {
