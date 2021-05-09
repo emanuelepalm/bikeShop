@@ -3,6 +3,7 @@ public abstract class Veichle {
     protected String name;
     protected int wheelsNumber;
     protected boolean readyToMove;
+
     public Veichle() {
 
     }

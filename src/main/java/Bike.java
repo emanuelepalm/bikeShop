@@ -1,29 +1,44 @@
 public class Bike extends Veichle {
 
     private String brand;
+    private boolean brake;
+    private double price;
+
 
     public Bike() {
 
     }
 
-    public Bike(String name, int wheelsNumber, boolean readyToMove) {
-        super(name, wheelsNumber, readyToMove);
+    public Bike(String name, boolean readyToMove) {
+        super(name, 2, readyToMove);
+        this.brand = name;
+        this.brake = readyToMove;
+        this.price = 49.99;
     }
-    public Bike(String name, int wheelsNumber, boolean readyToMove, String brand) {
+    public Bike(String name, int wheelsNumber, boolean readyToMove, String brand, double price) {
         super(name, wheelsNumber, readyToMove);
         this.brand = brand;
-
+        this.brake = readyToMove;
+        this.price = price;
     }
 
     public void move() {
         if(checkState()) {
             System.out.println("La bicicletta è in grado di muoversi");
         }
-
+    }
+    public double getPrice() {
+            return price;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+
+
     public boolean checkState() {
-        if(this.getWheelsNumber() == 2 && this.getReadyToMove()) {
+        if(this.getWheelsNumber() == 2 && this.getReadyToMove()  && this.brake) {
             return true;
         } else {
             return false;
