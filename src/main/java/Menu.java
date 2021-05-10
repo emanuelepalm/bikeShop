@@ -91,7 +91,7 @@ public class Menu {
         }
     }
     public void mainMenu(BikeShop bikeShop) {
-        System.out.println("Scegli l'operazione da eseguire\n1)Visualizza le bici in magazzino\n2)Visualizza i soldi in cassa \n3)Aggiungi bici al magazzino \n4)Vendi bici\n5)Fai un giro in bici \n6)Chiudi il negozio e esci");
+        System.out.println("Scegli l'operazione da eseguire\n1)Visualizza le bici in magazzino\n2)Visualizza i soldi in cassa \n3)Aggiungi bici al magazzino \n4)Vendi bici\n5)Fai un giro in bici \n6)Ripara le biciclette \n7)Chiudi il negozio e esci");
         int num = checker.nextInt();
         switch (num) {
             case 1:
@@ -110,6 +110,9 @@ public class Menu {
                 ride(bikeShop);
                 break;
             case 6:
+                repair(bikeShop);
+                break;
+            case 7:
                 menuStart(bikeShop);
                 break;
             case (-1):
@@ -231,26 +234,47 @@ public class Menu {
         int num = checker.nextInt();
         if(num <= bikeShop.getInStock().size()) {
             Bike bike = bikeShop.getInStock().get(num);
-            System.out.println("Scegli la marcia:\n(Un numero da 1 a 7)");
-            int speed = checker.nextInt();
-            System.out.println("Quante pedalate?");
-            int pedal = checker.nextInt();
-            int distance = bike.pedal(pedal, speed);
-            if(distance >= 0) {
-                System.out.println("Distanza percorsa: " + distance + " cm!");
-            } else {
+            if(bike.getReadyToMove()) {
+                System.out.println("Scegli la marcia:\n(Un numero da 1 a 7)");
+                int speed = checker.nextInt();
+                System.out.println("Quante pedalate?");
+                int pedal = checker.nextInt();
+                int distance = bike.pedal(pedal, speed);
+                if(distance >= 0) {
+                    System.out.println("Distanza percorsa: " + distance + " cm!");
+                    bikeShop.getInStock().get(num).setReadyToMove(false);
+                    System.out.println("La bici non sembra essere in ottime condizioni dopo il giro");
+                } else {
                 System.out.println("La marcia non esiste o hai provato a pedalare al contrario!");
-            }
-            System.out.println("Un altro giro?\nTASTO QUALSIASI)SI\n0)NO");
-            num = checker.nextInt();
-            if(num == 0) {
-                mainMenu(bikeShop);
+                }
+                System.out.println("Un altro giro?\nTASTO QUALSIASI)SI\n0)NO");
+                num = checker.nextInt();
+                if(num == 0) {
+                    mainMenu(bikeShop);
+                } else {
+                    ride(bikeShop);
+                }
             } else {
+                System.out.println("Le condizioni di questa bici non permettono di farci un giro\nRiparala o scegline un'altra");
                 ride(bikeShop);
             }
         } else {
             System.out.println("NON C'E' NESSUNA BICI IN QUESTO POSTO!");
             ride(bikeShop);
         }
+    }
+    public void repair(BikeShop bikeShop) {
+        ArrayList<Bike> inStock = bikeShop.getInStock();
+        for(int i = 0; i < inStock.size(); i++) {
+            if(!inStock.get(i).getReadyToMove()) {
+                System.out.println(inStock.get(i).getName() + " da riparare!\nTASTO QUALSIASI)Ripara\n0)Lascia stare");
+                int num = checker.nextInt();
+                if(num!=0) {
+                    inStock.get(i).setReadyToMove(true);
+                    System.out.println("Bici riparata!");
+                }
+            }
+        }
+        mainMenu(bikeShop);
     }
 }
