@@ -1,3 +1,4 @@
+import interfaces.Populator;
 import people.Buyer;
 import people.People;
 import shop.BikeShop;
@@ -6,7 +7,6 @@ import checker.Checker;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Menu implements Populator {
     Random random = new Random();

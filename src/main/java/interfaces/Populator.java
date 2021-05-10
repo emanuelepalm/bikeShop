@@ -1,3 +1,5 @@
+package interfaces;
+
 import people.Buyer;
 import people.People;
 import shop.BikeShop;
