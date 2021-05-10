@@ -27,6 +27,7 @@ public class Checker {
         }
         return nextInt;
     }
+
     public boolean isInt(String str)
     {
         if (str == null) {

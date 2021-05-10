@@ -17,12 +17,14 @@ public class Bike extends Veichle {
         this.brake = readyToMove;
         this.price = price;
     }
+
     public Bike(String name, double price) {
         super(name, 2, true);
         this.brand = name;
         this.brake = true;
         this.price = price;
     }
+
     public Bike(String name, int wheelsNumber, boolean readyToMove, String brand, double price) {
         super(name, wheelsNumber, readyToMove);
         this.brand = brand;
@@ -35,6 +37,7 @@ public class Bike extends Veichle {
             System.out.println("La bicicletta è in grado di muoversi");
         }
     }
+
     public double getPrice() {
             return price;
     }
@@ -42,8 +45,6 @@ public class Bike extends Veichle {
     public void setPrice(double price) {
         this.price = price;
     }
-
-
 
     public boolean checkState() {
         System.out.println("Controllo bicicletta");

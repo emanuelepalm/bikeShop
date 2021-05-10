@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Menu {
+public class Menu implements Populator {
     Random random = new Random();
     Checker checker = new Checker();
     public Menu() {
@@ -18,7 +18,7 @@ public class Menu {
         BikeShop bikeshop = populate();
         menuStart(bikeshop);
     }
-    public Buyer buyerPopulate(    ) {
+    public Buyer buyerPopulate() {
         String[] firstNameAr = {"Mario","Luca","Pippo","Riccardo","Antonio","Gerardo","Antonello","Peppino","Rosario","Mario","Celestino"};
         String[] lastNameAr = {"Rossi","Bianchi","Palmieri","Antonelli","Tiberio","Duvall","Bernini","Rodriguez","Panzerelli","Ricciardi","Smith"};
         Random random = new Random();
@@ -32,6 +32,7 @@ public class Menu {
         Buyer buyer = new Buyer(firstName,lastName,wallet,wantedBike);
         return buyer;
     }
+
     public Bike bikePopulate() {
         String[] brandAr = {"Bianchi","Cinelli","Cipollini","De Rosa","Olmo","Thok","Torpado","Scout"};
             double price = ((double)random.nextInt(200) - 0.01);
@@ -40,6 +41,7 @@ public class Menu {
 
         return bike;
     }
+
     public ArrayList<Bike> bikePopulate(int num) {
         ArrayList<Bike> bikeAr = new ArrayList<Bike>(num);
         String[] brandAr = {"Bianchi","Cinelli","Cipollini","De Rosa","Olmo","Thok","Torpado","Scout"};
@@ -51,10 +53,12 @@ public class Menu {
         }
         return bikeAr;
     }
+
     public People ownerPopulate() {
         People owner = new People("Emanuele","Palmieri");
         return owner;
     }
+
     public BikeShop populate() {
         int num = 10;
         double register = 500.00;
@@ -90,6 +94,7 @@ public class Menu {
             }
         }
     }
+
     public void mainMenu(BikeShop bikeShop) {
         System.out.println("Scegli l'operazione da eseguire\n1)Visualizza le bici in magazzino\n2)Visualizza i soldi in cassa \n3)Aggiungi bici al magazzino \n4)Vendi bici\n5)Fai un giro in bici \n6)Ripara le biciclette \n7)Chiudi il negozio e esci");
         int num = checker.nextInt();
@@ -125,6 +130,7 @@ public class Menu {
         }
 
     }
+
     public void viewInStock(BikeShop bikeShop) {
         ArrayList <Bike> inStock = bikeShop.getInStock();
         System.out.println("Bici in magazzino: " +inStock.size());
@@ -139,11 +145,13 @@ public class Menu {
         }
         mainMenu(bikeShop);
     }
+
     public void viewRegister(BikeShop bikeShop) {
         double register = bikeShop.getRegister();
         System.out.println("La cassa contiene: " + register + " €.");
         mainMenu(bikeShop);
     }
+
     public void addBikes(BikeShop bikeShop) {
         System.out.println("Vuoi Aggiungere:\n1)Una Bici Manualmente\n2)Una o più bici generate automaticamente\n0)Tornare al Menu");
         int choice = checker.nextInt();
@@ -180,6 +188,7 @@ public class Menu {
         }
 
     }
+
     public void insertBike (BikeShop bikeShop) {
         boolean readyToMove = false;
         System.out.println("Inserisci il nome del modello di bici da inserire");
@@ -210,6 +219,7 @@ public class Menu {
 
 
     }
+
     public void sell(BikeShop bikeShop) {
         Buyer customer = buyerPopulate();
         System.out.println(customer.getFirstName() + " " + customer.getLastName() + " è entrato nel negozio!");
@@ -229,6 +239,7 @@ public class Menu {
             sell(bikeShop);
         }
     }
+
     public void ride(BikeShop bikeShop) {
         System.out.println("Scegli una bici: ");
         int num = checker.nextInt();
@@ -263,6 +274,7 @@ public class Menu {
             ride(bikeShop);
         }
     }
+
     public void repair(BikeShop bikeShop) {
         ArrayList<Bike> inStock = bikeShop.getInStock();
         for(int i = 0; i < inStock.size(); i++) {
