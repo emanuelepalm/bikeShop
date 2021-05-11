@@ -1,3 +1,4 @@
+import interfaces.Movement;
 import interfaces.Populator;
 import people.Buyer;
 import people.People;
@@ -8,16 +9,18 @@ import checker.Checker;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Menu implements Populator {
+public class Menu implements Populator, Movement {
     Random random = new Random();
     Checker checker = new Checker();
     public Menu() {
 
     }
+    @Override
     public void menuInit() {
         BikeShop bikeshop = populate();
         menuStart(bikeshop);
     }
+    @Override
     public Buyer buyerPopulate() {
         String[] firstNameAr = {"Mario","Luca","Pippo","Riccardo","Antonio","Gerardo","Antonello","Peppino","Rosario","Mario","Celestino"};
         String[] lastNameAr = {"Rossi","Bianchi","Palmieri","Antonelli","Tiberio","Duvall","Bernini","Rodriguez","Panzerelli","Ricciardi","Smith"};
@@ -32,7 +35,7 @@ public class Menu implements Populator {
         Buyer buyer = new Buyer(firstName,lastName,wallet,wantedBike);
         return buyer;
     }
-
+    @Override
     public Bike bikePopulate() {
         String[] brandAr = {"Bianchi","Cinelli","Cipollini","De Rosa","Olmo","Thok","Torpado","Scout"};
             double price = ((double)random.nextInt(200) - 0.01);
@@ -41,7 +44,7 @@ public class Menu implements Populator {
 
         return bike;
     }
-
+    @Override
     public ArrayList<Bike> bikePopulate(int num) {
         ArrayList<Bike> bikeAr = new ArrayList<Bike>(num);
         String[] brandAr = {"Bianchi","Cinelli","Cipollini","De Rosa","Olmo","Thok","Torpado","Scout"};
@@ -53,19 +56,19 @@ public class Menu implements Populator {
         }
         return bikeAr;
     }
-
+    @Override
     public People ownerPopulate() {
         People owner = new People("Emanuele","Palmieri");
         return owner;
     }
-
+    @Override
     public BikeShop populate() {
         int num = 10;
         double register = 500.00;
         BikeShop bikeShop = new BikeShop(ownerPopulate(),bikePopulate(num),register,false);
         return bikeShop;
     }
-
+    @Override
     public void menuStart(BikeShop bikeShop) {
         System.out.println("Benvenuto " + bikeShop.getOwner().getFirstName() + "!");
         if(!bikeShop.isOpen()) {
@@ -94,7 +97,7 @@ public class Menu implements Populator {
             }
         }
     }
-
+    @Override
     public void mainMenu(BikeShop bikeShop) {
         System.out.println("Scegli l'operazione da eseguire\n1)Visualizza le bici in magazzino\n2)Visualizza i soldi in cassa \n3)Aggiungi bici al magazzino \n4)Vendi bici\n5)Fai un giro in bici \n6)Ripara le biciclette \n7)Chiudi il negozio e esci");
         int num = checker.nextInt();
